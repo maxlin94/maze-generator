@@ -1,6 +1,5 @@
 import Player from './Player.js'
 import Grid from './Grid.js'
-// Getting elements from DOM
 const generateMazeBtn = document.querySelector('.generate')
 const solveMazeBtn = document.querySelector('.solve')
 const delayInput = document.querySelector('.delay')
@@ -9,11 +8,10 @@ const winDialog = document.querySelector('.win')
 const sizeInput = document.querySelector('.size')
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d')
-
+const borderColor = getComputedStyle(document.documentElement).getPropertyValue('--background-primary')
 
 const height = 720;
 const width = 1200;
-const borderColor = getComputedStyle(document.documentElement).getPropertyValue('--background-primary')
 const playerColor = 'orange'
 const size = sizeInput.value;
 const delay = delayInput.value;
@@ -26,7 +24,7 @@ player.goal = board.goal
 function resetCanvas() {
     solveMazeBtn.style.display = 'none'
     generateMazeBtn.style.display = ''
-    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--background-primary')
+    ctx.fillStyle = borderColor
     ctx.fillRect(0, 0, width, height)
 }
 
