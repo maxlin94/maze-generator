@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script src='script.js' type="module" defer></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <dialog class="win">
+        <div>
+            <h1>You win!</h1>
+            <button class="play-again">Play again</button>
+        </div>
+    </dialog>
+    <div class="container">
+        <div class="button-container">
+            <button class="generate">Generate Maze</button>
+            <button class="solve">Solve Maze</button>
+            <label for="delay" class="delay-label">Delay:
+                <input type="number" class="delay" id="delay" value="10">
+            </label>
+            <label for="size" class="size-label">Size:
+                <select name="size" id="size" class="size">
+                    <option value="4">300x180</option>
+                    <option value="8">150x90</option>
+                    <option value="12">100x60</option>
+                    <option value="16" selected>75x45</option>
+                    <option value="20">60x36</option>
+                    <option value="24">50x30</option>
+                    <option value="40">30x18</option>
+                    <option value="60">20x12</option>
+                    <option value="80">15x9</option>
+                    <option value="120">10x6</option>
+                </select>
+            </label>
+        </div>
+        <canvas id="canvas" width="1200" height="720"></canvas>
+    </div>
+</body>
+</html>
