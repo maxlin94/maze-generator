@@ -8,7 +8,7 @@ export default class Node {
         this.g = 1;
         this.h = 1;
         this.visited = false;
-        this.searched = false;
+        this.partOfMaze = false;
         this.size = size;
         this.ctx = ctx;
         this.parent = null;
@@ -17,8 +17,8 @@ export default class Node {
         this.walls = {
             left: true,
             right: true,
-            up: x === 0 && y === 0 ? false : true,
-            down: x === width / size - 1 && y === height / size - 1 ? false : true,
+            up: true,
+            down: true,
         };
     }
 
@@ -33,8 +33,9 @@ export default class Node {
         });
     }
 
-    paintWall(dir) {
+    paintWall(dir, color) {
         this.ctx.strokeStyle = 'white';
+        if(color) this.ctx.strokeStyle = color
         this.ctx.lineWidth = this.wallThickness;
         const offset = this.wallThickness / 2 * -1; // Fixes jagged corners
         this.ctx.beginPath();
@@ -66,27 +67,29 @@ export default class Node {
 
     drawLine(dir, color) {
         this.ctx.strokeStyle = color;
-        this.ctx.lineWidth = 1 - this.wallThickness;
+        this.ctx.lineWidth = 1 - this.wallThickness
+        const offset = this.ctx.lineWidth / 2
         this.ctx.beginPath();
+        
         switch (dir) {
             case "right":
-                this.ctx.moveTo(this.x + 0.5 - this.wallThickness / 2, this.y + 0.5);
-                this.ctx.lineTo(this.x + 1.5 + this.wallThickness / 2, this.y + 0.5);
+                this.ctx.moveTo(this.x + 0.5 - offset, this.y + 0.5);
+                this.ctx.lineTo(this.x + 1.5 + offset, this.y + 0.5);
                 this.ctx.stroke();
                 break;
             case "left":
-                this.ctx.moveTo(this.x + 0.5 + this.wallThickness / 2, this.y + 0.5);
-                this.ctx.lineTo(this.x - 0.5 - this.wallThickness / 2, this.y + 0.5);
+                this.ctx.moveTo(this.x + 0.5 + offset, this.y + 0.5);
+                this.ctx.lineTo(this.x - 0.5 - offset, this.y + 0.5);
                 this.ctx.stroke();
                 break;
             case "up":
-                this.ctx.moveTo(this.x + 0.5, this.y + 0.5 - this.wallThickness / 2);
-                this.ctx.lineTo(this.x + 0.5, this.y - 0.5 - this.wallThickness / 2);
+                this.ctx.moveTo(this.x + 0.5, this.y + 0.5 + offset);
+                this.ctx.lineTo(this.x + 0.5, this.y - 0.5 - offset);
                 this.ctx.stroke();
                 break;
             case "down":
-                this.ctx.moveTo(this.x + 0.5, this.y + 0.5 - this.wallThickness / 2);
-                this.ctx.lineTo(this.x + 0.5, this.y + 1.5 + this.wallThickness / 2);
+                this.ctx.moveTo(this.x + 0.5, this.y + 0.5 - offset);
+                this.ctx.lineTo(this.x + 0.5, this.y + 1.5 + offset);
                 this.ctx.stroke();
                 break;
             default:

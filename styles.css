@@ -1,14 +1,14 @@
 :root {
-    --background-primary: #1C77C3;
-    --button-primary: #39A9DB;
+    --background-primary: #a4a8b9;
+    --background-secondary: #1d3149;
 }
 
 body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: var(--background-primary);
-    font-family: 'Roboto', sans-serif
+    background-color: #44688f; /* var(--background-primary); */
+    font-family: 'Roboto', sans-serif;
 }
 
 .container {
@@ -36,9 +36,10 @@ body {
     font-size: 1.5rem;
     color: rgba(255, 255, 255, 0.9);
     padding: .5rem 1rem;
-    background-color: var(--button-primary);
+    background-color: var(--background-secondary);
     border: none;
     cursor: pointer;
+    border-radius: 8px;
 }
 
 .generate {
@@ -46,7 +47,7 @@ body {
     font-size: 1.5rem;
     color: rgba(255, 255, 255, 0.9);
     padding: .5rem 1rem;
-    background-color: var(--button-primary);
+    background-color: var(--background-secondary);
     border: none;
     cursor: pointer;
 }
@@ -56,7 +57,7 @@ body {
     width: 100px;
     font-size: 1.2rem;
     color: rgba(255, 255, 255, 0.9);
-    background-color: var(--button-primary);
+    background-color: var(--background-secondary);
     border: none;
     height: 44px;
     padding-left: 10px;
@@ -70,7 +71,7 @@ body {
 .size {
     font-size: 1.2rem;
     color: rgba(255, 255, 255, 0.9);
-    background-color: var(--button-primary);
+    background-color: var(--background-secondary);
     border: none;
     outline: none;
     height: 44px;
@@ -78,7 +79,7 @@ body {
 }
 
 .size option {
-    background-color: var(--button-primary);
+    background-color: var(--background-secondary);
     border: none;
     outline: none;
 }
@@ -113,4 +114,31 @@ body {
     color: white;
     cursor: pointer;
     align-self: center;
+}
+
+.algo {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    background-color: var(--background-secondary);
+    border: none;
+    outline: none;
+    height: 44px;
+    padding-left: 10px;
+}
+
+.algo option {
+    background-color: var(--background-secondary);
+    border: none;
+    outline: none;
+}
+
+.algo-label {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+#canvas {
+    background-color: var(--background-secondary);
+    border: 2px solid var(--background-secondary);
+    border-radius: 8px;
 }
