@@ -9,12 +9,6 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <dialog class="win">
-        <div>
-            <h1>You win!</h1>
-            <button class="play-again">Play again</button>
-        </div>
-    </dialog>
     <div class="container">
         <div class="button-container">
             <button class="generate">Generate Maze</button>
@@ -32,8 +26,6 @@
                     <option value="24">50x30</option>
                     <option value="40">30x18</option>
                     <option value="60">20x12</option>
-                    <option value="80">15x9</option>
-                    <option value="120">10x6</option>
                 </select>
             </label>
             <label for="algo" class="algo-label">Algorithm:
@@ -43,7 +35,11 @@
                 </select>
             </label>
         </div>
-        <canvas id="canvas" width="1200" height="720"></canvas>
+        <div id="canvas-container">
+            <div>Start</div>
+            <canvas id="canvas" width="1200" height="720"></canvas>
+            <div>Goal</div>
+        </div>
     </div>
 </body>
 </html>

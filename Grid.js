@@ -6,11 +6,17 @@ export default class Grid {
         this.width = width;
         this.size = size;
         this.ctx = ctx;
-        this.pathColor = getComputedStyle(document.documentElement).getPropertyValue(
+        this.mazeColor = getComputedStyle(document.documentElement).getPropertyValue(
             "--background-primary"
         );
-        this.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue(
+        this.mazeBgColor = getComputedStyle(document.documentElement).getPropertyValue(
             "--background-secondary"
+        );
+        this.wrongPathColor = getComputedStyle(document.documentElement).getPropertyValue(
+            "--wrong-path-color"
+        );
+        this.correctPathColor = getComputedStyle(document.documentElement).getPropertyValue(
+            "--correct-path-color"
         );
         this.grid = this.createGrid();
         this.delay = delay;
@@ -26,7 +32,7 @@ export default class Grid {
                     j,
                     this.size,
                     this.ctx,
-                    this.pathColor,
+                    this.mazeBgColor,
                     this.width,
                     this.height
                 );
@@ -84,7 +90,7 @@ export default class Grid {
                 if(path.includes(randomNeighbor)) continue
                 const direction = this.getDirection(current, randomNeighbor);
                 this.removeWall(direction, current);
-                current.drawLine(direction, this.pathColor);
+                current.drawLine(direction, this.mazeColor);
                 randomNeighbor.parent = current;
                 current = randomNeighbor;
             }
@@ -101,7 +107,7 @@ export default class Grid {
             }
             if (neighbors.length === 0) {
                 previousSlice = this.backtrack(path, previousSlice);
-                current = path.at(-1);
+                current = path[path.length - 1];
             }
             if (!path.includes(current)) {
                 path.push(current);
@@ -115,7 +121,7 @@ export default class Grid {
         slice.forEach(node => {
             node.visited = false;
             const direction = this.getDirection(node, node.parent);
-            node.drawLine(direction, this.backgroundColor);
+            node.drawLine(direction, this.mazeBgColor);
             this.addWall(direction, node);
         })
         return previousSlice;
@@ -159,14 +165,14 @@ export default class Grid {
     async generateMaze() {
         const stack = [this.start];
         while (stack.length > 0) {
-            const current = stack.at(-1);
+            const current = stack[stack.length - 1];
             const neighbors = this.getNeighbors(current);
             current.visited = true;
             if (neighbors.length > 0) {
                 const randomNeighbor = neighbors[this.getRandomIndex(neighbors)];
                 const dir = this.getDirection(randomNeighbor, current);
                 this.removeWall(dir, randomNeighbor);
-                randomNeighbor.drawLine(dir, this.pathColor);
+                randomNeighbor.drawLine(dir, this.mazeColor);
                 if (this.delay > 0) await this.sleep(this.delay);
                 stack.push(randomNeighbor);
             } else {
@@ -256,9 +262,12 @@ export default class Grid {
             const q = this.findBestNode(open);
             open.splice(open.indexOf(q), 1);
             const neighbors = this.getSearchableNeighbors(q, closed);
-            if (this.delay > 0) this.drawPath(closed, q, "red");
+            if(q.parent) {
+                const direction = this.getDirection(q, q.parent)
+                q.drawLine(direction, this.wrongPathColor);
+            }
             if (this.checkWin(q)) {
-                this.drawPath(closed, q);
+                await this.drawPath(q, this.correctPathColor);
                 return;
             }
             for (const neighbor of neighbors) {
@@ -292,20 +301,13 @@ export default class Grid {
         return false;
     }
 
-    drawPath(closed, q, color) {
-        for (const node of closed) {
-            if (node.parent) {
-                const direction = this.getDirection(node, node.parent);
-                node.drawLine(direction, color);
-            }
-        }
+    async drawPath(q, color) {
         let current = q;
-        let count = 0;
         while (current.parent && current !== this.start) {
-            count++;
             const direction = this.getDirection(current, current.parent);
             if (current) {
-                current.drawLine(direction, color || "green");
+                if (this.delay > 0) await this.sleep(this.delay);
+                current.drawLine(direction, color);
             }
             current = current.parent;
         }

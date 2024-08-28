@@ -34,8 +34,7 @@ export default class Node {
     }
 
     paintWall(dir, color) {
-        this.ctx.strokeStyle = 'white';
-        if(color) this.ctx.strokeStyle = color
+        this.ctx.strokeStyle = color;
         this.ctx.lineWidth = this.wallThickness;
         const offset = this.wallThickness / 2 * -1; // Fixes jagged corners
         this.ctx.beginPath();
