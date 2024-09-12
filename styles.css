@@ -19,10 +19,8 @@ body {
     align-items: center;
     justify-content: center;
     width: fit-content;
-    position: absolute;
-    inset: 50%;
-    transform: translate(-50%, -50%);
     gap: 10px;
+    margin: 0 auto;
 }
 
 .button-container {
@@ -31,6 +29,7 @@ body {
     justify-content: flex-start;
     gap: 2rem;
     color: white;
+    margin: 2rem;
 }
 
 .solve {
@@ -91,13 +90,6 @@ body {
     color: rgba(255, 255, 255, 0.9);
 }
 
-.win {
-    opacity: 0.85;
-    border: 1px solid black;
-    background-color: white;
-    padding: 2rem;
-}
-
 .win h1 {
     font-size: 3rem;
 }
@@ -107,15 +99,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-.play-again {
-    font-size: 1.5rem;
-    padding: .5rem 1rem;
-    background-color: rgba(25, 25, 25, 0.8);
-    color: white;
-    cursor: pointer;
-    align-self: center;
 }
 
 .algo {
@@ -147,6 +130,7 @@ body {
     padding: 10px 0;
     color: orange;
     font-size: 1.5rem;
+    margin-bottom: 2rem;
     & > :last-child {
         align-self: flex-end;
     }
