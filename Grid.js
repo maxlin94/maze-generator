@@ -97,13 +97,11 @@ export default class Grid {
             if (goal.includes(current)) {
                 path.push(current)
                 previousSlice = 1;
-                current.partOfMaze = true;
                 goal.push(...path)
                 path.forEach(node => node.partOfMaze = true)
                 path.splice(0, path.length);
                 nodeList = this.grid.flat().filter((node) => !node.visited);
-                const randomNode = nodeList[this.getRandomIndex(nodeList)];
-                current = randomNode;
+                current = nodeList[this.getRandomIndex(nodeList)];
             }
             if (neighbors.length === 0) {
                 previousSlice = this.backtrack(path, previousSlice);
@@ -113,6 +111,7 @@ export default class Grid {
                 path.push(current);
             }
         }
+        this.grid.flat().forEach(node => node.parent = null);
     }
 
     backtrack(path, previousSlice) {
@@ -150,16 +149,6 @@ export default class Grid {
 
     getRandomIndex(arr) {
         return Math.floor(Math.random() * arr.length);
-    }
-
-    getRandomNode() {
-        let randomX = this.getRandomIndex(this.grid);
-        let randomY = this.getRandomIndex(this.grid[0]);
-        while (this.grid[randomX][randomY].visited) {
-            randomX = this.getRandomIndex(this.grid);
-            randomY = this.getRandomIndex(this.grid[0]);
-        }
-        return this.grid[randomX][randomY];
     }
 
     async generateMaze() {
@@ -208,7 +197,6 @@ export default class Grid {
         keys.forEach((key) => {
             if (!node.walls[key]) {
                 const neighbor = this.getNeighborByDir(key, node);
-                const bool = closed.some((el) => el.x === neighbor.x && el.y === neighbor.y);
                 if (neighbor && !closed.includes(neighbor)) {
                     neighbors.push(neighbor);
                 }
@@ -262,7 +250,7 @@ export default class Grid {
             const q = this.findBestNode(open);
             open.splice(open.indexOf(q), 1);
             const neighbors = this.getSearchableNeighbors(q, closed);
-            if(q.parent) {
+            if (q.parent) {
                 const direction = this.getDirection(q, q.parent)
                 q.drawLine(direction, this.wrongPathColor);
             }
@@ -287,18 +275,11 @@ export default class Grid {
     }
 
     checkSkipNode(node, open) {
-        const skipNode = open.find((el) => el.x === node.x && el.y === node.y);
-        if (skipNode && skipNode.f <= node.f) {
-            return true;
-        }
-        return false;
+        return open.find((el) => el.x === node.x && el.y === node.y && el.f <= node.f);
     }
 
     checkWin(node) {
-        if (node.x === this.goal.x && node.y === this.goal.y) {
-            return true;
-        }
-        return false;
+        return node.x === this.goal.x && node.y === this.goal.y
     }
 
     async drawPath(q, color) {
